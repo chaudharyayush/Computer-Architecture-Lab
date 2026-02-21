@@ -1,0 +1,20 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Encoder_4to2 is
+    Port (
+        D0 : in  STD_LOGIC;
+        D1 : in  STD_LOGIC;
+        D2 : in  STD_LOGIC;
+        D3 : in  STD_LOGIC;
+        Y0 : out STD_LOGIC;
+        Y1 : out STD_LOGIC
+    );
+end Encoder_4to2;
+
+architecture Behavioral of Encoder_4to2 is
+begin
+    -- Output logic
+    Y0 <= D1 or D3;
+    Y1 <= D2 or D3;
+end Behavioral;

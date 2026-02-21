@@ -1,0 +1,36 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity ALU_4bit_tb is
+end ALU_4bit_tb;
+
+architecture Behavioral of ALU_4bit_tb is
+    signal A, B        : STD_LOGIC_VECTOR(3 downto 0);
+    signal ALU_Sel     : STD_LOGIC_VECTOR(3 downto 0);
+    signal Result      : STD_LOGIC_VECTOR(3 downto 0);
+    signal CarryOut    : STD_LOGIC;
+    
+    component ALU_4bit
+        Port (
+            A       : in  STD_LOGIC_VECTOR(3 downto 0);
+            B       : in  STD_LOGIC_VECTOR(3 downto 0);
+            ALU_Sel : in  STD_LOGIC_VECTOR(3 downto 0);
+            Result  : out STD_LOGIC_VECTOR(3 downto 0);
+            CarryOut: out STD_LOGIC
+        );
+    end component;
+    
+begin
+    UUT: ALU_4bit port map (A => A, B => B, ALU_Sel => ALU_Sel, Result => Result, CarryOut => CarryOut);
+    
+    process
+    begin
+        A <= "0011"; B <= "0001"; ALU_Sel <= "0000"; wait for 10 ns; -- Addition 3+1
+        A <= "0101"; B <= "0010"; ALU_Sel <= "0001"; wait for 10 ns; -- Subtraction 5-2
+        A <= "1100"; B <= "1010"; ALU_Sel <= "0010"; wait for 10 ns; -- AND
+        A <= "1100"; B <= "1010"; ALU_Sel <= "0011"; wait for 10 ns; -- OR
+        A <= "1100"; B <= "1010"; ALU_Sel <= "0100"; wait for 10 ns; -- XOR
+        wait;
+    end process;
+
+end Behavioral;

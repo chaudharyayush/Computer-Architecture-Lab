@@ -1,0 +1,27 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity Adder4bit_Overflow is
+    Port (
+        A       : in  STD_LOGIC_VECTOR(3 downto 0);
+        B       : in  STD_LOGIC_VECTOR(3 downto 0);
+        Sum     : out STD_LOGIC_VECTOR(3 downto 0);
+        Overflow: out STD_LOGIC
+    );
+end Adder4bit_Overflow;
+
+architecture Behavioral of Adder4bit_Overflow is
+    signal temp_sum : STD_LOGIC_VECTOR(4 downto 0); -- 5-bit for carry
+begin
+    process(A, B)
+    begin
+        temp_sum <= ('0' & A) + ('0' & B); -- extend to 5 bits
+        Sum <= temp_sum(3 downto 0);
+
+        -- Overflow detection for signed numbers
+        Overflow <= (A(3) AND B(3) AND NOT temp_sum(3)) OR
+                    (NOT A(3) AND NOT B(3) AND temp_sum(3));
+    end process;
+end Behavioral;

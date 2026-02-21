@@ -1,0 +1,50 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity ALU_4bit is
+    Port (
+        A       : in  STD_LOGIC_VECTOR(3 downto 0);
+        B       : in  STD_LOGIC_VECTOR(3 downto 0);
+        ALU_Sel : in  STD_LOGIC_VECTOR(3 downto 0);
+        Result  : out STD_LOGIC_VECTOR(3 downto 0);
+        CarryOut: out STD_LOGIC
+    );
+end ALU_4bit;
+
+architecture Behavioral of ALU_4bit is
+begin
+    process(A, B, ALU_Sel)
+    begin
+        case ALU_Sel is
+            when "0000" =>  -- Addition
+                Result <= A + B;
+                if (A + B) > "1111" then
+                    CarryOut <= '1';
+                else
+                    CarryOut <= '0';
+                end if;
+                
+            when "0001" =>  -- Subtraction
+                Result <= A - B;
+                CarryOut <= '0';
+                
+            when "0010" =>  -- AND
+                Result <= A AND B;
+                CarryOut <= '0';
+                
+            when "0011" =>  -- OR
+                Result <= A OR B;
+                CarryOut <= '0';
+                
+            when "0100" =>  -- XOR
+                Result <= A XOR B;
+                CarryOut <= '0';
+                
+            when others =>
+                Result <= "0000";
+                CarryOut <= '0';
+        end case;
+    end process;
+end Behavioral;
